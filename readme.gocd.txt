@@ -56,7 +56,7 @@ Material Type: Git
 URL: https://github.com/sliu99/rest-example-multiStages.git
 
 Step3 stage/Job:
-Stage Name: Build docker image
+Stage Name: BuildDockerImage
 
 Job Name: buildDockerImage
 Task Type: More
