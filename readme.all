@@ -1,0 +1,78 @@
+
+This app builds a gocd pipeline that build the app.
+
+Case 1: use command to build
+Job Name: clean_and_package
+Task Type: Other
+Command: mvn
+Target: compile
+Arguments: package
+
+
+Case 2: use shell command to build
+Command: /bin/bash
+Arguments:
+-c
+mvn clean package
+/*
+Before test, login as root
+cd /var/lib/go-agent/pipelines/kubernetesSample1
+mvn clean
+*/
+
+
+Case 3: use sh shell script to build
+Command: /bin/sh
+Arguments: maven_build.sh
+
+
+Case 4: use bash shell script to build
+Command: /bin/bash
+Arguments: maven_build2.bash
+
+
+Case 5: use sh shell script to build image
+Command: /bin/sh
+Arguments: build_docker_image.sh
+
+
+Case 6: use sh shell script to run container (building image and running container in the same stage.)
+Command: /bin/sh
+Arguments: run_docker_container.sh
+
+pipeline runs seems not finished(in yellow) because the container started and not finished, maybe need to run in background)
+curl http://localhost:8080/books  //works
+ifconfig: get 192.168.40.135
+On windows Chrome browser, http://192.168.40.135:8080/books,  works
+
+docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+79fc59d9d8dc        rest-example        "/bin/sh -c 'java -j…"   16 minutes ago      Up 16 minutes       0.0.0.0:8080->8080/tcp   rest-example-container
+
+//to stop
+docker stop rest-example-container
+
+pipeline status shows failed with task status: failed, took: 18m 29.80s, exited: 143
+
+
+
+
+
+Case 7: use sh shell script to run container in background (building image and running container in the same stage.)
+Command: /bin/sh
+Arguments: run_docker_container_in_background.sh
+// you may need to delete the former container first: docker rm 79fc59d9d8dc
+// 79fc59d9d8dc is gottern from: docker ps -a
+// same tests in Case 6 work.
+// to stop and cleanup: 
+docker stop rest-example-container
+docker ps -a
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS                        PORTS               NAMES
+4e811ec3b1f9        rest-example                 "/bin/sh -c 'java -j…"   4 minutes ago       Exited (143) 49 seconds ago                       rest-example-container
+//remove container
+docker rm 4e811ec3b1f9
+
+
+
+
+
