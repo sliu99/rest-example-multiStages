@@ -93,3 +93,12 @@ curl http://localhost:8080/books  //works
 ifconfig: get 192.168.40.135
 On windows Chrome browser, http://192.168.40.135:8080/books,  works
 
+//to cleanup
+docker stop 68a814e790e6
+
+docker ps -a
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS                       PORTS               NAMES
+68a814e790e6        rest-example                 "/bin/sh -c 'java -j…"   24 minutes ago      Exited (143) 8 seconds ago                       rest-example-container
+
+docker rm 68a814e790e6
+
