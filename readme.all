@@ -74,5 +74,22 @@ docker rm 4e811ec3b1f9
 
 
 
+Case 8: Multi stages pipeline: use sh shell script to run container in background (building image and running container seperately.)
+rest-example-multStages pipeline has 2 stages:
+BuildDockerImage
+Command: /bin/sh
+Arguments: build_docker_image.sh
 
+RunDockerContainer
+Command: /bin/sh
+Arguments: run_docker_container_only.sh
+
+After run pipeline successfully,
+docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+68a814e790e6        rest-example        "/bin/sh -c 'java -j…"   27 seconds ago      Up 25 seconds       0.0.0.0:8080->8080/tcp   rest-example-container
+
+curl http://localhost:8080/books  //works
+ifconfig: get 192.168.40.135
+On windows Chrome browser, http://192.168.40.135:8080/books,  works
 
